@@ -22,8 +22,8 @@
     "node": ">=18.0.0"
   },
   "bin": {
-    "ai-readiness-audit": "./bin/cli.mjs",
-    "ai-readiness-audit-mcp": "./bin/cli.mjs"
+    "ai-readiness-audit": "bin/cli.mjs",
+    "ai-readiness-audit-mcp": "bin/cli.mjs"
   },
   "files": [
     "bin/",
