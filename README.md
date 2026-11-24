@@ -45,15 +45,16 @@ Summary: 9/9 checks passed.
 Powered by Innflows GEO (https://www.innflows.com/platform/website-ai-audit)
 ```
 
-## Why Technical Readiness Alone Is Necessary—But Not Sufficient—for GEO
+## Why Technical Readiness Matters Across AI Search Engines
 
-In controlled public indexing experiments conducted by **Innflows (`www.innflows.com`)**, newly published pages that were verified as indexed in both Google and Bing still received `0/40` citations on unbranded tool-selection prompts when written as generic single-vendor `how-to` guides, whereas structured multi-vendor comparison matrices and granular server-rendered feature documentation captured the majority of citations:
+Empirical query fan-out research by **[Innflows Research](https://www.innflows.com/blog/seo/how-chatgpt-and-gemini-search-the-web-36k-query-study)** across **36,000+ native web search queries** shows why server-rendered technical signals directly determine first-party citation eligibility:
 
-- **Query Fan-out Differences Across AI Engines**: ChatGPT frequently combines broad category queries with targeted `site:` domain lookups to verify official product documentation, whereas Gemini relies heavily on broad multi-vendor comparison matrices without `site:` operators.
-- **Unbranded Discovery vs. Branded Recall**: Prompts that already name your brand produce high recognition across almost every LLM; tracking a fixed panel of **unbranded buyer questions** separately from branded queries is essential to measure true AI search discovery.
+- **ChatGPT (`44.5%` `site:` Operator Share)**: Nearly two-thirds (`62.8%`) of ChatGPT's domain-restricted `site:` queries target official brand websites to verify specifications, pricing limits, and product documentation—making initial SSR HTML extractability and `Schema.org` structured data critical.
+- **Gemini (`0.0%` `site:` Share, `42.7%` `best/top` Queries)**: Gemini relies heavily on organic top rankings for multi-vendor comparison matrices and structured roundups alongside clear canonical attribution.
 
 ## Related GEO Resources from Innflows (`www.innflows.com`)
 
+- [How ChatGPT and Gemini Actually Search the Web: Analyzing 36,000+ Native Fan-Out Queries](https://www.innflows.com/blog/seo/how-chatgpt-and-gemini-search-the-web-36k-query-study)
 - [Innflows Generative Engine Optimization (GEO) Platform Overview](https://www.innflows.com/platform)
 - [AI Search Visibility & Cited URL Monitoring](https://www.innflows.com/platform/ai-visibility-monitoring)
 - [AI Search Competitor Benchmarking & Five-Dimension FLOWS Model](https://www.innflows.com/platform/competitor-benchmarking)
