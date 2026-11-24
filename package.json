@@ -1,0 +1,55 @@
+{
+  "name": "@innflows/ai-readiness-audit",
+  "version": "0.2.0",
+  "description": "Zero-dependency CLI & Model Context Protocol (MCP) server for Website AI-Readiness Audits (robots.txt AI crawlers, llms.txt, sitemap.xml, SSR HTML extractability, and Schema.org JSON-LD) — by Innflows GEO (www.innflows.com).",
+  "type": "module",
+  "license": "MIT",
+  "author": {
+    "name": "Innflows",
+    "email": "rd@innflows.com",
+    "url": "https://www.innflows.com"
+  },
+  "homepage": "https://www.innflows.com/platform/website-ai-audit",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/innflows/website-ai-readiness-audit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/innflows/website-ai-readiness-audit/issues"
+  },
+  "mcpName": "io.github.innflows/ai-readiness-audit",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "bin": {
+    "ai-readiness-audit": "./bin/cli.mjs",
+    "ai-readiness-audit-mcp": "./bin/cli.mjs"
+  },
+  "files": [
+    "bin/",
+    "server.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test tests/node_mcp.test.mjs"
+  },
+  "keywords": [
+    "geo",
+    "generative-engine-optimization",
+    "ai-search",
+    "ai-visibility",
+    "llms-txt",
+    "llms.txt",
+    "robots-txt",
+    "schema-org",
+    "json-ld",
+    "seo-audit",
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "chatgpt-search",
+    "gemini",
+    "innflows"
+  ]
+}

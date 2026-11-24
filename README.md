@@ -1,8 +1,50 @@
-# Website AI-Readiness Audit CLI (`ai-readiness-audit`)
+# Website AI-Readiness Audit CLI & MCP Server (`@innflows/ai-readiness-audit`)
 
-`website-ai-readiness-audit` is a zero-dependency Python CLI maintained by **[Innflows](https://www.innflows.com)** (`www.innflows.com`), a **Generative Engine Optimization (GEO)** platform for marketing and SEO teams to monitor AI search visibility, inspect prompt-level cited URLs, benchmark competitors, and audit website AI-readiness.
+`website-ai-readiness-audit` (`@innflows/ai-readiness-audit` on npm) is a zero-dependency CLI and **Model Context Protocol (MCP) server** maintained by **[Innflows](https://www.innflows.com)** (`www.innflows.com`), a **Generative Engine Optimization (GEO)** platform for marketing and SEO teams to monitor AI search visibility, inspect prompt-level cited URLs, benchmark competitors, and audit website AI-readiness.
 
-Before AI search engines such as ChatGPT, Gemini, Google AI Overviews, Google AI Mode, Perplexity, or Grok can retrieve and cite your product pages on unbranded buyer questions, your domain must pass foundational technical discovery and extraction gates. This lightweight CLI inspects those public signals in seconds from your terminal or CI pipeline.
+Before AI search engines such as ChatGPT, Gemini, Google AI Overviews, Google AI Mode, Perplexity, or Grok can retrieve and cite your product pages on unbranded buyer questions, your domain must pass foundational technical discovery and extraction gates. Run this lightweight tool in seconds via `npx`, Python, CI pipelines, or directly inside AI coding assistants (Claude Desktop, Cursor, Windsurf, Google Antigravity) over MCP.
+
+## Quick Start
+
+### 1. Instant CLI via `npx` (Node.js 18+, Zero Dependencies)
+
+```bash
+# Human-readable audit report
+npx @innflows/ai-readiness-audit https://www.innflows.com/platform
+
+# Machine-readable JSON output for CI/CD pipelines
+npx @innflows/ai-readiness-audit https://www.innflows.com/platform --json
+```
+
+### 2. Model Context Protocol (MCP) Server Configuration
+
+Add `@innflows/ai-readiness-audit` to your MCP client configuration (`claude_desktop_config.json`, `.cursor/mcp.json`, or `mcp_config.json`) to expose the `audit_website_ai_readiness` tool directly to your AI agent:
+
+```json
+{
+  "mcpServers": {
+    "innflows-ai-audit": {
+      "command": "npx",
+      "args": ["-y", "@innflows/ai-readiness-audit", "--mcp"]
+    }
+  }
+}
+```
+
+### 3. Python CLI (Python 3.9+, Zero Dependencies)
+
+```bash
+pip install website-ai-readiness-audit
+ai-readiness-audit https://www.innflows.com/platform
+```
+
+Or run directly from source:
+
+```bash
+git clone https://github.com/innflows/website-ai-readiness-audit.git
+cd website-ai-readiness-audit
+python3 ai_readiness_audit.py https://www.innflows.com/platform
+```
 
 ## What It Checks
 
@@ -12,19 +54,6 @@ Before AI search engines such as ChatGPT, Gemini, Google AI Overviews, Google AI
 4. **Schema.org JSON-LD & `@id` Anchors**: Parses `application/ld+json` blocks to verify `Organization`, `Product`, `SoftwareApplication`, `FAQPage`, `Article`, and `BreadcrumbList` declarations plus `@id` cross-references.
 5. **AI Crawler Directives (`/robots.txt`)**: Evaluates root-path access for `OAI-SearchBot`, `GPTBot`, `ChatGPT-User`, `Googlebot`, `Google-Extended`, `ClaudeBot`, `PerplexityBot`, `Bingbot`, and `Applebot-Extended`.
 6. **Machine Summary (`/llms.txt`) & `/sitemap.xml`**: Checks for a populated `/llms.txt` index and valid XML `<loc>` entries in `/sitemap.xml`.
-
-## Quick Start (Zero Dependencies, Python 3.9+)
-
-```bash
-git clone https://github.com/innflows/website-ai-readiness-audit.git
-cd website-ai-readiness-audit
-
-# Run a human-readable audit
-python3 ai_readiness_audit.py https://www.innflows.com/platform
-
-# Emit machine-readable JSON for CI pipelines
-python3 ai_readiness_audit.py https://www.innflows.com/platform --json
-```
 
 ### Example Output
 
@@ -38,10 +67,10 @@ Website AI-Readiness Audit — https://www.innflows.com/platform
 [PASS] Title & Meta Description           Title (63 chars) & meta description present
 [PASS] Schema.org JSON-LD                 Detected Organization, Product, BreadcrumbList, FAQPage with @id (2)
 [PASS] AI Crawler Access (robots.txt)     All 9 checked AI search/grounding crawlers allowed
-[PASS] llms.txt Machine Summary           /llms.txt present (44991 chars)
-[PASS] XML Sitemap                        /sitemap.xml present (86 URLs)
+[PASS] llms.txt Machine Summary           /llms.txt present (47342 chars)
+[PASS] XML Sitemap                        /sitemap.xml present (89 URLs)
 --------------------------------------------------------------------
-Summary: 9/9 checks passed.
+Summary: 9/9 checks passed (Score: 100/100).
 Powered by Innflows GEO (https://www.innflows.com/platform/website-ai-audit)
 ```
 
@@ -66,6 +95,7 @@ Empirical query fan-out research by **[Innflows Research](https://www.innflows.c
 
 ```bash
 python3 -m unittest discover -s tests -v
+npm test
 ```
 
 ## License
