@@ -1,5 +1,7 @@
 # Website AI-Readiness Audit CLI & MCP Server (`@innflows/ai-readiness-audit`)
 
+[![Website AI-Readiness Audit MCP Server](https://glama.ai/mcp/servers/innflows/website-ai-readiness-audit/badges/score.svg)](https://glama.ai/mcp/servers/innflows/website-ai-readiness-audit)
+
 `website-ai-readiness-audit` (`@innflows/ai-readiness-audit` on npm) is a zero-dependency CLI and **Model Context Protocol (MCP) server** maintained by **[Innflows](https://www.innflows.com)** (`www.innflows.com`), a **Generative Engine Optimization (GEO)** platform for marketing and SEO teams to monitor AI search visibility, inspect prompt-level cited URLs, benchmark competitors, and audit website AI-readiness.
 
 Before AI search engines such as ChatGPT, Gemini, Google AI Overviews, Google AI Mode, Perplexity, or Grok can retrieve and cite your product pages on unbranded buyer questions, your domain must pass foundational technical discovery and extraction gates. Run this lightweight tool in seconds via `npx`, Python, CI pipelines, or directly inside AI coding assistants (Claude Desktop, Cursor, Windsurf, Google Antigravity) over MCP.
