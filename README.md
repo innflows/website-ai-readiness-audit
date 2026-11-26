@@ -85,7 +85,9 @@ Empirical query fan-out research by **[Innflows Research](https://www.innflows.c
 
 ## Related GEO Resources from Innflows (`www.innflows.com`)
 
+- [**Awesome GEO & AEO (`innflows/awesome-geo-aeo`)**](https://github.com/innflows/awesome-geo-aeo) — Curated GEO & AEO research papers, 18-bot AI crawler matrix, production `robots.txt` / `llms.txt` / JSON-LD templates, and open CSV benchmark datasets (`CC0-1.0`)
 - [How ChatGPT and Gemini Actually Search the Web: Analyzing 36,000+ Native Fan-Out Queries](https://www.innflows.com/blog/seo/how-chatgpt-and-gemini-search-the-web-36k-query-study)
+- [State of B2B SaaS AI Search Readiness (Nov 2026): Auditing 100 Public Websites](https://www.innflows.com/blog/seo/state-of-b2b-saas-ai-search-readiness-100-website-study)
 - [Innflows Generative Engine Optimization (GEO) Platform Overview](https://www.innflows.com/platform)
 - [AI Search Visibility & Cited URL Monitoring](https://www.innflows.com/platform/ai-visibility-monitoring)
 - [AI Search Competitor Benchmarking & Five-Dimension FLOWS Model](https://www.innflows.com/platform/competitor-benchmarking)
