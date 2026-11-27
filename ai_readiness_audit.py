@@ -15,7 +15,7 @@ import urllib.request
 from dataclasses import asdict, dataclass
 from html.parser import HTMLParser
 
-VERSION = "0.3.0"
+VERSION = "0.3.1"
 
 AI_CRAWLERS = (
     "OAI-SearchBot",

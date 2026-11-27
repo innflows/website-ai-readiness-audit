@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "website-ai-readiness-audit"
-version = "0.3.0"
+version = "0.3.1"
 description = "Zero-dependency GEO & AEO CLI to audit website AI search readiness, probe live AI crawler WAF blocks, validate/generate llms.txt, and inspect Schema.org JSON-LD — by Innflows GEO."
 readme = "README.md"
 license = { text = "MIT" }

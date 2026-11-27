@@ -110,7 +110,7 @@ test("handleMcpRequest exposes all 5 GEO/AEO tools and executes audit_website_ai
     params: { protocolVersion: "2024-11-05" },
   });
   assert.equal(initReply.result.serverInfo.name, "@innflows/ai-readiness-audit");
-  assert.equal(initReply.result.serverInfo.version, "0.3.0");
+  assert.equal(initReply.result.serverInfo.version, "0.3.1");
 
   const listReply = await handleMcpRequest({ jsonrpc: "2.0", id: 2, method: "tools/list" });
   const names = listReply.result.tools.map((t) => t.name);

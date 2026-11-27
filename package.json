@@ -1,8 +1,12 @@
 {
   "name": "@innflows/ai-readiness-audit",
-  "version": "0.3.0",
-  "description": "Zero-dependency GEO & AEO Website AI-Readiness CLI, GitHub Action & 5-Tool MCP Server: audit SSR/meta signals, probe live AI crawler WAF blocks, validate or generate /llms.txt, inspect Schema.org @id graphs, and benchmark sites — by Innflows (www.innflows.com).",
+  "version": "0.3.1",
+  "description": "Zero-dependency GEO & AEO Website AI-Readiness CLI, Node SDK, GitHub Action & 5-Tool MCP Server: audit SSR/meta signals, probe live AI crawler WAF blocks, validate or generate /llms.txt, inspect Schema.org @id graphs, and benchmark sites — by Innflows (www.innflows.com).",
   "type": "module",
+  "main": "./bin/cli.mjs",
+  "exports": {
+    ".": "./bin/cli.mjs"
+  },
   "license": "MIT",
   "author": {
     "name": "Innflows",

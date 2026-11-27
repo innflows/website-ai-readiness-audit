@@ -31,7 +31,7 @@ export const PROBE_USER_AGENTS = {
   "Applebot-Extended": "Mozilla/5.0 (Applebot-Extended/0.3; +http://www.apple.com/go/applebot)",
 };
 
-export const PKG_VERSION = "0.3.0";
+export const PKG_VERSION = "0.3.1";
 
 function isPrivateIp(ip) {
   if (net.isIPv4(ip)) {
