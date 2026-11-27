@@ -31,11 +31,17 @@ jobs:
       - name: Publish to npm with OIDC Provenance
         run: npm publish --provenance --access public
 
-      - name: Sync Official MCP Registry via GitHub OIDC
+      - name: Sync Official MCP Registry via GitHub OIDC (after npm CDN propagation)
         continue-on-error: true
         run: |
-          sleep 15
           curl -sL "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_linux_amd64.tar.gz" | tar -xz mcp-publisher
           chmod +x ./mcp-publisher
           ./mcp-publisher login github-oidc
-          ./mcp-publisher publish server.json
+          for i in $(seq 1 18); do
+            if ./mcp-publisher publish server.json; then
+              echo "MCP Registry synced on attempt $i"
+              exit 0
+            fi
+            echo "Waiting 10s for npm CDN propagation (attempt $i/18)..."
+            sleep 10
+          done
