@@ -11,22 +11,31 @@ permissions:
 
 jobs:
   publish:
-    name: Publish @innflows/ai-readiness-audit with Provenance
+    name: Publish @innflows/ai-readiness-audit via OIDC Trusted Publisher
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js 22
+      - name: Setup Node.js 24 (npm 11+ with OIDC Trusted Publisher support)
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
-          registry-url: "https://registry.npmjs.org"
+          node-version: "24"
+
+      - name: Ensure latest npm CLI for OIDC exchange
+        run: npm install -g npm@latest && npm --version
 
       - name: Run unit tests
         run: npm test
 
-      - name: Publish to npm (Trusted Publisher OIDC or NPM_TOKEN)
+      - name: Publish to npm with OIDC Provenance
         run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Sync Official MCP Registry via GitHub OIDC
+        continue-on-error: true
+        run: |
+          sleep 15
+          curl -sL "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_linux_amd64.tar.gz" | tar -xz mcp-publisher
+          chmod +x ./mcp-publisher
+          ./mcp-publisher login github-oidc
+          ./mcp-publisher publish server.json
