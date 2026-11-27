@@ -4,15 +4,15 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "website-ai-readiness-audit"
-version = "0.2.0"
-description = "Zero-dependency CLI to inspect website AI search readiness (robots.txt AI crawlers, llms.txt, sitemap.xml, SSR HTML extractability, and Schema.org JSON-LD) — by Innflows GEO."
+version = "0.3.0"
+description = "Zero-dependency GEO & AEO CLI to audit website AI search readiness, probe live AI crawler WAF blocks, validate/generate llms.txt, and inspect Schema.org JSON-LD — by Innflows GEO."
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.9"
 authors = [
   { name = "Innflows", email = "rd@innflows.com" }
 ]
-keywords = ["geo", "generative-engine-optimization", "ai-search", "llms-txt", "schema-org", "seo-audit", "mcp", "innflows"]
+keywords = ["geo", "aeo", "generative-engine-optimization", "answer-engine-optimization", "ai-search", "llms-txt", "schema-org", "seo-audit", "mcp", "innflows"]
 
 [project.urls]
 Homepage = "https://www.innflows.com"

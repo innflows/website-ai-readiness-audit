@@ -1,17 +1,17 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json",
   "name": "io.github.innflows/ai-readiness-audit",
-  "description": "GEO website AI-readiness audit checking robots.txt AI crawlers, llms.txt, SSR HTML & Schema.org.",
+  "description": "5-tool GEO/AEO MCP suite: website AI-readiness audit, AI crawler WAF probe, llms.txt & Schema.org.",
   "repository": {
     "url": "https://github.com/innflows/website-ai-readiness-audit",
     "source": "github"
   },
-  "version": "0.2.0",
+  "version": "0.3.0",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "@innflows/ai-readiness-audit",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "transport": {
         "type": "stdio"
       },

@@ -1,26 +1,39 @@
-# Website AI-Readiness Audit CLI & MCP Server (`@innflows/ai-readiness-audit`)
+# Website AI-Readiness Audit CLI, GitHub Action & 5-Tool MCP Server (`@innflows/ai-readiness-audit`)
 
+[![CI](https://github.com/innflows/website-ai-readiness-audit/actions/workflows/ci.yml/badge.svg)](https://github.com/innflows/website-ai-readiness-audit/actions/workflows/ci.yml)
 [![Website AI-Readiness Audit MCP Server](https://glama.ai/mcp/servers/innflows/website-ai-readiness-audit/badges/score.svg)](https://glama.ai/mcp/servers/innflows/website-ai-readiness-audit)
+[![npm version](https://img.shields.io/npm/v/@innflows/ai-readiness-audit.svg)](https://www.npmjs.com/package/@innflows/ai-readiness-audit)
 
-`website-ai-readiness-audit` (`@innflows/ai-readiness-audit` on npm) is a zero-dependency CLI and **Model Context Protocol (MCP) server** maintained by **[Innflows](https://www.innflows.com)** (`www.innflows.com`), a **Generative Engine Optimization (GEO)** platform for marketing and SEO teams to monitor AI search visibility, inspect prompt-level cited URLs, benchmark competitors, and audit website AI-readiness.
+`website-ai-readiness-audit` (`@innflows/ai-readiness-audit` on npm) is a zero-dependency **CLI**, **GitHub Action**, and **5-tool Model Context Protocol (MCP) server** maintained by **[Innflows](https://www.innflows.com)** (`www.innflows.com`), a **Generative Engine Optimization (GEO) & Answer Engine Optimization (AEO)** platform for marketing, SEO, and engineering teams.
 
-Before AI search engines such as ChatGPT, Gemini, Google AI Overviews, Google AI Mode, Perplexity, or Grok can retrieve and cite your product pages on unbranded buyer questions, your domain must pass foundational technical discovery and extraction gates. Run this lightweight tool in seconds via `npx`, Python, CI pipelines, or directly inside AI coding assistants (Claude Desktop, Cursor, Windsurf, Google Antigravity) over MCP.
+Before AI search engines such as ChatGPT, Gemini, Google AI Overviews, Google AI Mode, Perplexity, or Claude can retrieve and cite your product pages on unbranded buyer questions, your domain must pass foundational technical discovery, WAF reachability, and structured extraction gates.
 
 ## Quick Start
 
-### 1. Instant CLI via `npx` (Node.js 18+, Zero Dependencies)
+### 1. Instant CLI Suite via `npx` (Node.js 18+, Zero Dependencies)
 
 ```bash
-# Human-readable audit report
+# 1) Full 9-check AI-readiness audit (with optional --fail-under CI gate)
 npx @innflows/ai-readiness-audit https://www.innflows.com/platform
+npx @innflows/ai-readiness-audit https://www.innflows.com/platform --fail-under 85
 
-# Machine-readable JSON output for CI/CD pipelines
-npx @innflows/ai-readiness-audit https://www.innflows.com/platform --json
+# 2) Probe live AI crawler User-Agents to catch silent Cloudflare / WAF 403 blocks
+npx @innflows/ai-readiness-audit probe-crawlers https://www.innflows.com
+
+# 3) Validate live /llms.txt spec & link health, OR auto-generate a compliant /llms.txt
+npx @innflows/ai-readiness-audit llms-txt https://www.innflows.com
+npx @innflows/ai-readiness-audit llms-txt https://www.innflows.com --generate > llms.txt
+
+# 4) Inspect Schema.org JSON-LD entity graph, @id anchors, dangling refs & sameAs reachability
+npx @innflows/ai-readiness-audit schema-graph https://www.innflows.com
+
+# 5) Side-by-side Markdown benchmark across 2–5 websites
+npx @innflows/ai-readiness-audit compare https://www.innflows.com https://example.com
 ```
 
-### 2. Model Context Protocol (MCP) Server Configuration
+### 2. Model Context Protocol (MCP) Server (5 Cohesive Tools)
 
-Add `@innflows/ai-readiness-audit` to your MCP client configuration (`claude_desktop_config.json`, `.cursor/mcp.json`, or `mcp_config.json`) to expose the `audit_website_ai_readiness` tool directly to your AI agent:
+Add `@innflows/ai-readiness-audit` to `claude_desktop_config.json`, `.cursor/mcp.json`, Windsurf, or Google Antigravity `mcp_config.json`:
 
 ```json
 {
@@ -33,31 +46,43 @@ Add `@innflows/ai-readiness-audit` to your MCP client configuration (`claude_des
 }
 ```
 
-### 3. Python CLI (Python 3.9+, Zero Dependencies)
+| MCP Tool Name | Purpose |
+| :--- | :--- |
+| `audit_website_ai_readiness` | End-to-end 0–100 GEO/AEO technical readiness score across HTTP status, `noindex`, SSR visible HTML text, canonical/meta tags, `Schema.org` JSON-LD, `/robots.txt`, `/llms.txt`, and `/sitemap.xml`. |
+| `probe_ai_crawler_access` | Live HTTP probe across `OAI-SearchBot`, `GPTBot`, `ChatGPT-User`, `ClaudeBot`, `PerplexityBot`, `Google-Extended`, and `Applebot-Extended` vs. a browser baseline to catch silent WAF/CDN bot blocks. |
+| `inspect_or_generate_llms_txt` | Validates live `/llms.txt` against `llmstxt.org` structure (catching SPA HTML soft-200 shells and dead links) or synthesizes a clean `/llms.txt` from `/sitemap.xml` and homepage metadata. |
+| `inspect_schema_entity_graph` | Parses `application/ld+json` `@graph` blocks, checks `@id` entity links and `Organization.sameAs` HTTP reachability, and outputs starter JSON-LD templates for missing core entities. |
+| `compare_websites_ai_readiness` | Benchmarks 2 to 5 URLs concurrently and returns a Markdown comparison matrix + structured JSON diff. |
+
+### 3. GitHub Action (CI Regression Gate)
+
+Prevent accidental `noindex` headers, broken JSON-LD, empty client-only SPA shells, or WAF AI-bot blocks on every deployment:
+
+```yaml
+name: AI Search Readiness Gate
+on: [ deployment_status, workflow_dispatch ]
+
+jobs:
+  geo-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: innflows/website-ai-readiness-audit@v0.3.0
+        with:
+          url: "https://www.innflows.com"
+          fail-under: "85"
+          probe-waf: "true"
+```
+
+### 4. Python CLI (Python 3.9+, Zero Dependencies)
 
 ```bash
 pip install website-ai-readiness-audit
 ai-readiness-audit https://www.innflows.com/platform
+ai-readiness-audit probe-crawlers https://www.innflows.com
+ai-readiness-audit schema-graph https://www.innflows.com
 ```
 
-Or run directly from source:
-
-```bash
-git clone https://github.com/innflows/website-ai-readiness-audit.git
-cd website-ai-readiness-audit
-python3 ai_readiness_audit.py https://www.innflows.com/platform
-```
-
-## What It Checks
-
-1. **Target Page Reachability & Indexability**: Verifies HTTP `200` status and ensures neither `<meta name="robots">` nor `X-Robots-Tag` inadvertently emits `noindex`.
-2. **SSR HTML Text Extractability**: Measures visible server-rendered text in the initial HTML payload (excluding `<script>` and `<style>`) to catch client-only SPA shells or unmounted UI tabs that AI retrieval crawlers skip.
-3. **Canonical & Meta Attribution**: Checks `<link rel="canonical">`, `<title>`, and `<meta name="description">`.
-4. **Schema.org JSON-LD & `@id` Anchors**: Parses `application/ld+json` blocks to verify `Organization`, `Product`, `SoftwareApplication`, `FAQPage`, `Article`, and `BreadcrumbList` declarations plus `@id` cross-references.
-5. **AI Crawler Directives (`/robots.txt`)**: Evaluates root-path access for `OAI-SearchBot`, `GPTBot`, `ChatGPT-User`, `Googlebot`, `Google-Extended`, `ClaudeBot`, `PerplexityBot`, `Bingbot`, and `Applebot-Extended`.
-6. **Machine Summary (`/llms.txt`) & `/sitemap.xml`**: Checks for a populated `/llms.txt` index and valid XML `<loc>` entries in `/sitemap.xml`.
-
-### Example Output
+## Example Output
 
 ```text
 Website AI-Readiness Audit — https://www.innflows.com/platform
@@ -69,38 +94,34 @@ Website AI-Readiness Audit — https://www.innflows.com/platform
 [PASS] Title & Meta Description           Title (63 chars) & meta description present
 [PASS] Schema.org JSON-LD                 Detected Organization, Product, BreadcrumbList, FAQPage with @id (2)
 [PASS] AI Crawler Access (robots.txt)     All 9 checked AI search/grounding crawlers allowed
-[PASS] llms.txt Machine Summary           /llms.txt present (47342 chars)
+[PASS] llms.txt Machine Summary           /llms.txt present (47342 chars, 41 links)
 [PASS] XML Sitemap                        /sitemap.xml present (89 URLs)
 --------------------------------------------------------------------
 Summary: 9/9 checks passed (Score: 100/100).
 Powered by Innflows GEO (https://www.innflows.com/platform/website-ai-audit)
 ```
 
-## Why Technical Readiness Matters Across AI Search Engines
+## Empirical GEO & AEO Research Behind These Checks
 
-Empirical query fan-out research by **[Innflows Research](https://www.innflows.com/blog/seo/how-chatgpt-and-gemini-search-the-web-36k-query-study)** across **36,000+ native web search queries** shows why server-rendered technical signals directly determine first-party citation eligibility:
+Empirical research by **[Innflows Research](https://www.innflows.com/blog)** explains why each technical gate directly impacts AI search citations:
 
-- **ChatGPT (`44.5%` `site:` Operator Share)**: Nearly two-thirds (`62.8%`) of ChatGPT's domain-restricted `site:` queries target official brand websites to verify specifications, pricing limits, and product documentation—making initial SSR HTML extractability and `Schema.org` structured data critical.
-- **Gemini (`0.0%` `site:` Share, `42.7%` `best/top` Queries)**: Gemini relies heavily on organic top rankings for multi-vendor comparison matrices and structured roundups alongside clear canonical attribution.
+- **ChatGPT (`44.5%` `site:` Operator Share) vs. Gemini (`0.0%` `site:`)**: Analyzing [36,000+ native fan-out queries](https://www.innflows.com/blog/seo/how-chatgpt-and-gemini-search-the-web-36k-query-study) shows nearly two-thirds of ChatGPT's domain-restricted queries inspect official brand domains directly—making SSR HTML text and `Schema.org` `@id` graphs decisive.
+- **Silent WAF Blocks & SPA Soft-200 Fallbacks**: Auditing [100 public B2B SaaS websites](https://www.innflows.com/blog/seo/state-of-b2b-saas-ai-search-readiness-100-website-study) revealed that `7%` block non-JS AI retrievers at the WAF/CDN layer even when `/robots.txt` allows all bots, and `5%` serve empty SPA HTML shells on `/llms.txt`.
 
-## Related GEO Resources from Innflows (`www.innflows.com`)
+## Related Open-Source & Platform Resources (`www.innflows.com`)
 
-- [**Awesome GEO & AEO (`innflows/awesome-geo-aeo`)**](https://github.com/innflows/awesome-geo-aeo) — Curated GEO & AEO research papers, 18-bot AI crawler matrix, production `robots.txt` / `llms.txt` / JSON-LD templates, and open CSV benchmark datasets (`CC0-1.0`)
-- [**GEO & AEO Research Papers (`innflows/geo-aeo-papers`)**](https://github.com/innflows/geo-aeo-papers) — 2023–2026 literature survey, 34 critically annotated KDD / NeurIPS / ICLR / ACL / WWW / ICML / arXiv studies, CSV/BibTeX exports, and weekly arXiv radar (`CC0-1.0`)
-- [How ChatGPT and Gemini Actually Search the Web: Analyzing 36,000+ Native Fan-Out Queries](https://www.innflows.com/blog/seo/how-chatgpt-and-gemini-search-the-web-36k-query-study)
-- [State of B2B SaaS AI Search Readiness (Nov 2026): Auditing 100 Public Websites](https://www.innflows.com/blog/seo/state-of-b2b-saas-ai-search-readiness-100-website-study)
+- [**Awesome GEO & AEO (`innflows/awesome-geo-aeo`)**](https://github.com/innflows/awesome-geo-aeo) — Curated research papers, 18-bot AI crawler matrix, production `robots.txt` / `llms.txt` / JSON-LD templates, and open CSV datasets (`CC0-1.0`)
+- [**GEO & AEO Research Papers (`innflows/geo-aeo-papers`)**](https://github.com/innflows/geo-aeo-papers) — 2023–2026 literature survey, 34 annotated KDD / NeurIPS / ICLR / ACL / WWW / ICML / arXiv studies, CSV/BibTeX exports & weekly radar (`CC0-1.0`)
+- [AEO vs. GEO vs. SEO in 2026: Complete Architecture, Metrics & AI SEO Tools](https://www.innflows.com/blog/seo/aeo-vs-geo-vs-seo-architecture-metrics-ai-seo-tools)
 - [Innflows Generative Engine Optimization (GEO) Platform Overview](https://www.innflows.com/platform)
-- [AI Search Visibility & Cited URL Monitoring](https://www.innflows.com/platform/ai-visibility-monitoring)
-- [AI Search Competitor Benchmarking & Five-Dimension FLOWS Model](https://www.innflows.com/platform/competitor-benchmarking)
 - [Full 18-Check Website AI-Readiness Audit & Content Optimization](https://www.innflows.com/platform/website-ai-audit)
-- [GEO Tools Compared (November 2026): 7 AI Search Visibility Platforms](https://www.innflows.com/blog/seo/how-to-choose-geo-tools-for-ai-search-visibility-monitoring)
 - [Innflows Website Audit App on Shopify App Store](https://apps.shopify.com/website-audit)
 
 ## Running Tests
 
 ```bash
-python3 -m unittest discover -s tests -v
 npm test
+python3 -m unittest discover -s tests -v
 ```
 
 ## License

@@ -1,7 +1,7 @@
 {
   "name": "@innflows/ai-readiness-audit",
-  "version": "0.2.0",
-  "description": "Zero-dependency CLI & Model Context Protocol (MCP) server for Website AI-Readiness Audits (robots.txt AI crawlers, llms.txt, sitemap.xml, SSR HTML extractability, and Schema.org JSON-LD) — by Innflows GEO (www.innflows.com).",
+  "version": "0.3.0",
+  "description": "Zero-dependency GEO & AEO Website AI-Readiness CLI, GitHub Action & 5-Tool MCP Server: audit SSR/meta signals, probe live AI crawler WAF blocks, validate or generate /llms.txt, inspect Schema.org @id graphs, and benchmark sites — by Innflows (www.innflows.com).",
   "type": "module",
   "license": "MIT",
   "author": {
@@ -36,20 +36,22 @@
   },
   "keywords": [
     "geo",
+    "aeo",
     "generative-engine-optimization",
+    "answer-engine-optimization",
     "ai-search",
     "ai-visibility",
     "llms-txt",
     "llms.txt",
     "robots-txt",
+    "ai-crawlers",
     "schema-org",
     "json-ld",
     "seo-audit",
     "mcp",
     "mcp-server",
     "model-context-protocol",
-    "chatgpt-search",
-    "gemini",
+    "github-actions",
     "innflows"
   ]
 }

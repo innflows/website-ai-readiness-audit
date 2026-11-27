@@ -1,0 +1,88 @@
+name: "Website AI-Readiness Audit (GEO & AEO)"
+author: "Innflows"
+description: "Zero-dependency GEO & AEO CI gate: audit SSR text, Schema.org JSON-LD, /robots.txt AI crawlers, WAF blocks, and /llms.txt."
+branding:
+  icon: "search"
+  color: "blue"
+
+inputs:
+  url:
+    description: "Public webpage URL to audit (e.g. https://www.innflows.com)"
+    required: true
+  fail-under:
+    description: "Minimum AI-readiness score (0-100) required to pass CI (set 0 to never fail)"
+    required: false
+    default: "75"
+  probe-waf:
+    description: "Also probe live HTTP responses across AI crawler User-Agents to detect silent WAF/Cloudflare blocks ('true' or 'false')"
+    required: false
+    default: "false"
+  timeout:
+    description: "Per-request HTTP timeout in seconds"
+    required: false
+    default: "12"
+
+outputs:
+  score:
+    description: "Overall AI-readiness score (0-100)"
+    value: ${{ steps.audit.outputs.score }}
+  passed:
+    description: "Number of checks passed"
+    value: ${{ steps.audit.outputs.passed }}
+  total:
+    description: "Total number of checks evaluated"
+    value: ${{ steps.audit.outputs.total }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: "20"
+
+    - name: Run Website AI-Readiness Audit
+      id: audit
+      shell: bash
+      env:
+        TARGET_URL: ${{ inputs.url }}
+        FAIL_UNDER: ${{ inputs.fail-under }}
+        PROBE_WAF: ${{ inputs.probe-waf }}
+        REQ_TIMEOUT: ${{ inputs.timeout }}
+      run: |
+        set -euo pipefail
+        REPORT_FILE="$(mktemp)"
+        node "${{ github.action_path }}/bin/cli.mjs" "$TARGET_URL" --json --timeout "$REQ_TIMEOUT" > "$REPORT_FILE"
+
+        SCORE="$(node -e 'const fs=require("fs"); const r=JSON.parse(fs.readFileSync(process.argv[1],"utf8")); console.log(r.score ?? 0);' "$REPORT_FILE")"
+        PASSED="$(node -e 'const fs=require("fs"); const r=JSON.parse(fs.readFileSync(process.argv[1],"utf8")); console.log(r.passed ?? 0);' "$REPORT_FILE")"
+        TOTAL="$(node -e 'const fs=require("fs"); const r=JSON.parse(fs.readFileSync(process.argv[1],"utf8")); console.log(r.total ?? 0);' "$REPORT_FILE")"
+
+        echo "score=$SCORE" >> "$GITHUB_OUTPUT"
+        echo "passed=$PASSED" >> "$GITHUB_OUTPUT"
+        echo "total=$TOTAL" >> "$GITHUB_OUTPUT"
+
+        node -e '
+          const fs = require("fs");
+          const r = JSON.parse(fs.readFileSync(process.argv[1], "utf8"));
+          const icons = { pass: "PASS", warn: "WARN", fail: "FAIL" };
+          const lines = [
+            `### Website AI-Readiness Audit: \`${r.url}\` — **${r.score}/100** (${r.passed}/${r.total} passed)`,
+            "",
+            "| Status | Check | Detail |",
+            "| :---: | :--- | :--- |",
+            ...(r.checks || []).map(c => `| **${icons[c.status] || c.status}** | ${c.name} | ${c.detail} |`),
+            ""
+          ];
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, lines.join("\n"));
+          console.log(lines.join("\n"));
+        ' "$REPORT_FILE"
+
+        if [ "$PROBE_WAF" = "true" ]; then
+          node "${{ github.action_path }}/bin/cli.mjs" probe-crawlers "$TARGET_URL" --timeout "$REQ_TIMEOUT"
+        fi
+
+        if [ "$FAIL_UNDER" -gt 0 ] && [ "$SCORE" -lt "$FAIL_UNDER" ]; then
+          echo "::error::AI-Readiness score ($SCORE/100) is below fail-under threshold ($FAIL_UNDER)."
+          exit 2
+        fi
